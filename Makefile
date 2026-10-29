@@ -1,6 +1,6 @@
 RACK_DIR ?= ../..
 FLAGS += -Icore
-SOURCES += $(wildcard src/*.cpp)
+SOURCES += $(wildcard src/*.cpp) $(wildcard core/*.cpp)
 DISTRIBUTABLES += res LICENSE
 include $(RACK_DIR)/plugin.mk
 

@@ -20,6 +20,7 @@
     {"slug": "Mixer", "name": "My lil Mixer", "description": "Eight-strip stereo mixer with sidechain ducking: level, pan, two sends, duck amount, mute and solo per strip, two stereo returns, master soft clip; strip meters with duck bars, master LUFS and history", "tags": ["Mixer", "Dynamics"]},
     {"slug": "AcidBass", "name": "My lil Acid Bass", "description": "Acid bass voice (saw/square, resonant 24 dB filter, accent, slide) with a 32-step sequencer and 32 pattern slots", "tags": ["Synth voice", "Sequencer", "Oscillator", "Filter", "Envelope generator"]},
     {"slug": "AcidVoice", "name": "My lil Acid Voice", "description": "The acid bass voice on its own: V/Oct, gate, accent and slide in, cutoff and resonance CV, audio out", "tags": ["Synth voice"]},
-    {"slug": "Looper", "name": "My lil Looper", "description": "Five-track stereo live looper: record, overdub with undo, reverse and one-shot per track, synced to the first loop or a clock", "tags": ["Recording", "Sampler", "Polyphonic"]}
+    {"slug": "Looper", "name": "My lil Looper", "description": "Five-track stereo live looper: record, overdub with undo, reverse and one-shot per track, synced to the first loop or a clock", "tags": ["Recording", "Sampler", "Polyphonic"]},
+    {"slug": "MelodyMonster", "name": "Melody Monster", "description": "8-track seeded generative melody sequencer", "tags": ["Sequencer", "Polyphonic", "Random"]}
   ]
 }
