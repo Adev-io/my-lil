@@ -2,3 +2,4 @@
 #pragma once
 #include "layout/toolbox.hpp"
 #include "layout/acid.hpp"
+#include "layout/looper.hpp"
