@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""panel.py: writes res/<Module>.svg for each module and src/layout.hpp, from one layout table per module.
+"""toolbox.py: writes res/<Module>.svg for each module and src/layout/toolbox.hpp, from one layout table per module.
 
 Labels become paths (DejaVu Sans from the Rack install, or the font named by RACK_FONT), so the SVG has no <text>,
 as the VCV panel guide asks. The widgets read the same tables through layout.hpp, so art and components cannot drift.

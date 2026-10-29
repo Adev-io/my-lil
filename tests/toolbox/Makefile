@@ -7,7 +7,7 @@ BIN := ../../build/tests-toolbox.exe
 all: run
 
 $(BIN): test.cpp $(wildcard ../../core/*.h)
-	@mkdir -p ../build
+	@mkdir -p $(dir $(BIN))
 	$(CXX) $(CXXFLAGS) test.cpp -o $(BIN)
 
 run: $(BIN)

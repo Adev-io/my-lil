@@ -127,5 +127,5 @@ SEND 1 into a reverb, the reverb back into RTN1, OUT L/R to the audio interface.
 ## Build
 
 MSYS2 mingw64 with the Rack SDK: `export RACK_DIR=/c/dev/Rack-SDK`, then `make test` (core checks), `make`,
-`make install`. `tools/panel.py` regenerates the panel and `src/layout.hpp` (Python 3 + fontTools). `tools/rig` is a
+`make install`. `tools/panel/toolbox.py` regenerates the panel and `src/layout/toolbox.hpp` (Python 3 + fontTools). `tools/rig` is a
 dev-only Windows rig for an isolated Rack.

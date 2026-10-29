@@ -8,7 +8,7 @@
 #include "Meter.h"
 #include "MixerWidgets.hpp"
 #include "TalkingFace.hpp"
-static_assert (layout::mixer::STRIPS == mixer::numStrips, "tools/panel.py strip count must match core/Mixer.h");
+static_assert (layout::mixer::STRIPS == mixer::numStrips, "tools/panel/toolbox.py strip count must match core/Mixer.h");
 
 // LEVEL / MASTER shown in dB of the knob's 2 k^2 gain
 struct MixerGainQuantity : ParamQuantity
