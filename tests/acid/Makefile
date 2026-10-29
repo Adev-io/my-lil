@@ -11,6 +11,6 @@ $(BIN): test.cpp $(wildcard ../../core/*.h)
 	$(CXX) $(CXXFLAGS) test.cpp -o $(BIN)
 
 run: $(BIN)
-	$(BIN)
+	cd .. && ../build/tests-acid.exe
 
 .PHONY: all run
