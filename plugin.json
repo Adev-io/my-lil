@@ -22,6 +22,7 @@
     {"slug": "AcidVoice", "name": "My lil Acid Voice", "description": "The acid bass voice on its own: V/Oct, gate, accent and slide in, cutoff and resonance CV, audio out", "tags": ["Synth voice"]},
     {"slug": "Looper", "name": "My lil Looper", "description": "Five-track stereo live looper: record, overdub with undo, reverse and one-shot per track, synced to the first loop or a clock", "tags": ["Recording", "Sampler", "Polyphonic"]},
     {"slug": "MelodyMonster", "name": "Melody Monster", "description": "8-track seeded generative melody sequencer", "tags": ["Sequencer", "Polyphonic", "Random"]},
-    {"slug": "Drums", "name": "My lil Drums", "description": "FPC-style drum sequencer: 16 sample pads, 64-step piano roll, per-pad ADSR, filter and compressor, MIDI out", "tags": ["Sequencer", "Sampler", "Drum"]}
+    {"slug": "Drums", "name": "My lil Drums", "description": "FPC-style drum sequencer: 16 sample pads, 64-step piano roll, per-pad ADSR, filter and compressor, MIDI out", "tags": ["Sequencer", "Sampler", "Drum"]},
+    {"slug": "VJLink", "name": "My lil VJ Link", "description": "Sends your patch's audio analysis to My Lil VJ and turns its levels, LFOs, camera motion, hand tracking and show events into CV", "tags": ["Visual", "MIDI", "Utility"]}
   ]
 }

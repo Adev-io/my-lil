@@ -15,6 +15,7 @@ extern Model* modelAcidVoice;
 extern Model* modelLooper;
 extern Model* modelMelodyMonster;
 extern Model* modelDrums;
+extern Model* modelVjLink;
 
 // House light colours, the same as the panels (tools/panel/toolbox.py) and My lil Acid Bass.
 struct LimeLight : GrayModuleLightWidget { LimeLight() { addBaseColor (nvgRGB (0xc8, 0xff, 0x3a)); } };

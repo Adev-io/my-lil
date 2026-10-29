@@ -5,3 +5,4 @@
 #include "layout/looper.hpp"
 #include "layout/melody.hpp"
 #include "layout/drums.hpp"
+#include "layout/vjlink.hpp"

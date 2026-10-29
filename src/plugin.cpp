@@ -13,4 +13,5 @@ void init (Plugin* p)
     p->addModel (modelLooper);
     p->addModel (modelMelodyMonster);
     p->addModel (modelDrums);
+    p->addModel (modelVjLink);
 }
