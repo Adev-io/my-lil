@@ -4,3 +4,4 @@
 #include "layout/acid.hpp"
 #include "layout/looper.hpp"
 #include "layout/melody.hpp"
+#include "layout/drums.hpp"

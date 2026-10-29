@@ -12,4 +12,5 @@ void init (Plugin* p)
     p->addModel (modelAcidVoice);
     p->addModel (modelLooper);
     p->addModel (modelMelodyMonster);
+    p->addModel (modelDrums);
 }
