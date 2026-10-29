@@ -1,5 +1,6 @@
 # tests/Makefile: runs the one-translation-unit guard FIRST, then builds and runs every plugin's core checks (tests/<plugin>/Makefile).
 # `make test` at the repo root runs this. A failing program fails the run.
+# Each program runs from tests/ (it opens ../build/x.wav, ../res/kit/); melody runs from the repo root (its golden file path).
 CXX ?= g++
 DIRS := $(patsubst %/Makefile,%,$(wildcard */Makefile))
 

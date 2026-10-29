@@ -1,0 +1,2 @@
+# tests/melody/golden_seed42.txt is compared byte for byte: always LF, even with core.autocrlf=true on Windows.
+tests/melody/golden_seed42.txt text eol=lf

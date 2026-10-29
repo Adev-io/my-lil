@@ -10,6 +10,7 @@ $(BIN): $(TEST_SRC) $(CORE_SRC) $(wildcard ../../core/*.hpp) t.hpp
 	@mkdir -p ../../build
 	$(CXX) $(CXXFLAGS) $(TEST_SRC) $(CORE_SRC) -o $(BIN)
 
+# From the repo root, not tests/: test_golden opens tests/melody/golden_seed42.txt.
 run: $(BIN)
 	cd ../.. && ./build/tests-melody.exe
 

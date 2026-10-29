@@ -4,7 +4,7 @@
 #include <cstring>
 #include <cstdint>
 // Lines 1-5: pattern hashes for seeds 0 1 42 500 999. Then 64 steps of track 0 (seed 42, minor pent, C, length 16, forward).
-// Compared to tests/melody/golden_seed42.txt. Regenerate deliberately with: make -C tests golden
+// Compared to tests/melody/golden_seed42.txt. Regenerate deliberately with: make -C tests/melody golden
 static const char* GOLDEN = "tests/melody/golden_seed42.txt";
 static uint32_t hashSlots(const Slot* s) { uint32_t h = 2166136261u; for (int i = 0; i < 64; ++i) {
   uint32_t f[9] = {(uint32_t)(int32_t)s[i].degree, s[i].gateRoll, s[i].noteRoll, s[i].noteAmt, s[i].octRoll, s[i].octAmt, s[i].weightRoll, s[i].slopVal, s[i].tieVal};
