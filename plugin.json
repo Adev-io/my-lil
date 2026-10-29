@@ -1,22 +1,22 @@
 {
-  "slug": "MyLilToolbox",
-  "name": "My lil Toolbox",
-  "version": "2.2.0",
+  "slug": "MyLil",
+  "name": "My lil",
+  "version": "2.3.0",
   "license": "MIT",
   "brand": "A_Development",
   "author": "Ari Klopfer",
   "authorEmail": "arik@adevelopment.dev",
   "authorUrl": "https://adevelopment.dev",
-  "pluginUrl": "https://github.com/Adev-io/my-lil-toolbox",
-  "manualUrl": "https://github.com/Adev-io/my-lil-toolbox#readme",
-  "sourceUrl": "https://github.com/Adev-io/my-lil-toolbox",
+  "pluginUrl": "https://github.com/Adev-io/my-lil",
+  "manualUrl": "https://github.com/Adev-io/my-lil#readme",
+  "sourceUrl": "https://github.com/Adev-io/my-lil",
   "donateUrl": "",
-  "changelogUrl": "https://github.com/Adev-io/my-lil-toolbox/releases",
+  "changelogUrl": "https://github.com/Adev-io/my-lil/releases",
   "modules": [
-    { "slug": "Arpeggio", "name": "My lil Arpeggio", "description": "Dual quantizer and arpeggiator sharing one scale: 10 presets, an editable keyboard, and a scale-degree interval for in-key harmony", "tags": ["Quantizer", "Arpeggiator", "Random", "Dual"] },
-    { "slug": "Ripple", "name": "My lil Ripple", "description": "Polyrhythm trigger generator with an ADSR envelope: four period generators mixed on a grid or as summed waves into two complementary rhythms, with accent and clock outs, and an envelope out fired by the rhythm", "tags": ["Clock generator", "Clock modulator", "Sequencer", "Envelope generator"] },
-    { "slug": "Filter", "name": "My lil Filter", "description": "Acid 24 dB resonant low-pass for audio: drive, cutoff CV with amount, 1 V/oct key tracking, resonance CV, polyphonic", "tags": ["Filter", "Polyphonic"] },
-    { "slug": "Slider", "name": "My lil Slider", "description": "Two 8-step slider sequencers with gate buttons: record CV and gates live, per-section length, range, invert and reverse, chain to 16 steps", "tags": ["Sequencer", "Controller"] },
-    { "slug": "Mixer", "name": "My lil Mixer", "description": "Eight-strip stereo mixer with sidechain ducking: level, pan, two sends, duck amount, mute and solo per strip, two stereo returns, master soft clip; strip meters with duck bars, master LUFS and history", "tags": ["Mixer", "Dynamics"] }
+    {"slug": "Arpeggio", "name": "My lil Arpeggio", "description": "Dual quantizer and arpeggiator sharing one scale: 10 presets, an editable keyboard, and a scale-degree interval for in-key harmony", "tags": ["Quantizer", "Arpeggiator", "Random", "Dual"]},
+    {"slug": "Ripple", "name": "My lil Ripple", "description": "Polyrhythm trigger generator with an ADSR envelope: four period generators mixed on a grid or as summed waves into two complementary rhythms, with accent and clock outs, and an envelope out fired by the rhythm", "tags": ["Clock generator", "Clock modulator", "Sequencer", "Envelope generator"]},
+    {"slug": "Filter", "name": "My lil Filter", "description": "Acid 24 dB resonant low-pass for audio: drive, cutoff CV with amount, 1 V/oct key tracking, resonance CV, polyphonic", "tags": ["Filter", "Polyphonic"]},
+    {"slug": "Slider", "name": "My lil Slider", "description": "Two 8-step slider sequencers with gate buttons: record CV and gates live, per-section length, range, invert and reverse, chain to 16 steps", "tags": ["Sequencer", "Controller"]},
+    {"slug": "Mixer", "name": "My lil Mixer", "description": "Eight-strip stereo mixer with sidechain ducking: level, pan, two sends, duck amount, mute and solo per strip, two stereo returns, master soft clip; strip meters with duck bars, master LUFS and history", "tags": ["Mixer", "Dynamics"]}
   ]
 }

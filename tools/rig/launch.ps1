@@ -4,7 +4,7 @@
 param([Parameter(Mandatory)][string]$Patch, [string[]]$Extra = @())
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path (Split-Path $PSScriptRoot)
-$dist = Join-Path $repo 'dist\MyLilToolbox'
+$dist = Join-Path $repo 'dist\MyLil'
 if (-not (Test-Path "$dist\plugin.dll")) { throw "No build at $dist. Run make dist first." }
 $patchPath = (Resolve-Path $Patch).Path
 foreach ($x in $Extra) { if (-not (Test-Path "$env:LOCALAPPDATA\Rack2\plugins-win-x64\$x")) { throw "No plugin $x in the user's Rack" } }

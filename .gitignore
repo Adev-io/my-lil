@@ -6,3 +6,5 @@ plugin.dylib
 *.o
 *.d
 __pycache__/
+
+*.bak-*
