@@ -1,7 +1,7 @@
 {
   "slug": "MyLil",
   "name": "My lil",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "license": "MIT",
   "brand": "A_Development",
   "author": "Ari Klopfer",
@@ -18,6 +18,7 @@
     {"slug": "Filter", "name": "My lil Filter", "description": "Acid 24 dB resonant low-pass for audio: drive, cutoff CV with amount, 1 V/oct key tracking, resonance CV, polyphonic", "tags": ["Filter", "Polyphonic"]},
     {"slug": "Slider", "name": "My lil Slider", "description": "Two 8-step slider sequencers with gate buttons: record CV and gates live, per-section length, range, invert and reverse, chain to 16 steps", "tags": ["Sequencer", "Controller"]},
     {"slug": "Mixer", "name": "My lil Mixer", "description": "Eight-strip stereo mixer with sidechain ducking: level, pan, two sends, duck amount, mute and solo per strip, two stereo returns, master soft clip; strip meters with duck bars, master LUFS and history", "tags": ["Mixer", "Dynamics"]},
+    {"slug": "Duck", "name": "My lil Duck", "description": "Sidechain ducker for audio outside the Mixer: the SC input (audio or triggers) pulls a polyphonic stereo pair down by DEPTH, with a release from 20 ms to 1 s and a gain-reduction light", "tags": ["Dynamics", "Polyphonic"]},
     {"slug": "AcidBass", "name": "My lil Acid Bass", "description": "Acid bass voice (saw/square, resonant 24 dB filter, accent, slide) with a 32-step sequencer and 32 pattern slots", "tags": ["Synth voice", "Sequencer", "Oscillator", "Filter", "Envelope generator"]},
     {"slug": "AcidVoice", "name": "My lil Acid Voice", "description": "The acid bass voice on its own: V/Oct, gate, accent and slide in, cutoff and resonance CV, audio out", "tags": ["Synth voice"]},
     {"slug": "Looper", "name": "My lil Looper", "description": "Five-track stereo live looper: record, overdub with undo, reverse and one-shot per track, synced to the first loop or a clock", "tags": ["Recording", "Sampler", "Polyphonic"]},

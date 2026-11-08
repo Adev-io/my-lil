@@ -6,11 +6,13 @@
 #include "Rhythm.h"
 #include "FaceTap.h"
 #include "Gate.h"
+#include "Ratchet.h"
 #include "Ladder.h"
 #include "Env.h"
 #include "Slider.h"
 #include "Mixer.h"
 #include "Meter.h"
+#include "Duck.h"
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
@@ -667,6 +669,18 @@ void testGate()
         g.reset();
         check (highOnly (runGate (g, 100, { 0 }), 0, 10), "gate: after reset the first trig gives 10 ms again");
     }
+    {
+        gate::Gate g;
+        g.frac = 0.25f;
+        const std::vector<bool> h = runGate (g, 300, { 0, 100, 200 });
+        check (highOnly (h, 200, 225), "gate: frac 0.25 of a 100 ms period gives 25 ms");
+    }
+    {
+        gate::Gate g;
+        g.frac = 0.95f;
+        const std::vector<bool> h = runGate (g, 300, { 0, 100, 200 });
+        check (highOnly (h, 200, 295), "gate: frac 0.95 falls before the next step");
+    }
 }
 // Peak output of a sine through a fresh filter: 0.5 s to settle, then the peak of the next 0.25 s. 44.1 kHz.
 const double ladderSr = 44100.0;
@@ -1253,6 +1267,111 @@ void testMeter()
     check (near (meter::duckDb (0.9f, 1.f), -20.0, 0.01) && meter::duckDb (1.f, 1.f) == -24.f, "meter: the duck bar bottoms out at -24 dB", meter::duckDb (1.f, 1.f));
 }
 
+void testKeyLock()
+{
+    const uint16_t eDorian = maskOf ({ 1, 2, 4, 6, 7, 9, 11 });
+    scale::KeyLock lock;
+    int last = 3;
+    check (scale::keysStep (eDorian, 0, last, false, 0, lock) == scale::preset (0) && last == 0, "keys: unlocked TYPE move loads its preset");
+    last = 3;
+    check (scale::keysStep (eDorian, 3, last, true, 0x0F0, lock) == 0x0F0, "keys: unlocked RANDOM rolls");
+    check (scale::keysStep (eDorian, 3, last, false, 0, lock) == eDorian, "keys: unlocked and untouched, keys hold");
+
+    lock.engage (eDorian);
+    check (lock.on && lock.mask == eDorian, "keys: engage stores the current keys");
+    last = 3;
+    check (scale::keysStep (eDorian, 0, last, false, 0, lock) == eDorian, "keys: locked TYPE move is ignored");
+    check (last == 0, "keys: locked TYPE move is still tracked");
+    check (scale::keysStep (eDorian, 0, last, true, 0x0F0, lock) == eDorian, "keys: locked RANDOM is ignored");
+    check (scale::keysStep (scale::preset (0), 0, last, false, 0, lock) == eDorian, "keys: locked key click bounces back");
+    int fresh = -1;   // Initialize: params reset (keys off, TYPE 0) and lastType = -1
+    check (scale::keysStep (0, 0, fresh, false, 0, lock) == eDorian, "keys: locked Initialize restores the scale");
+
+    lock.release();
+    check (! lock.on, "keys: release unlocks");
+    check (scale::keysStep (eDorian, 0, last, false, 0, lock) == eDorian, "keys: unlocking after a TYPE move loads nothing");
+}
+
+// Runs a ratchet n samples with input trigs on `trigs`; returns the sample indexes where it fired.
+std::vector<int> runRatchet (ratchet::Ratchet& r, int n, std::initializer_list<int> trigs, int rolls)
+{
+    std::vector<int> out;
+    for (int i = 0; i < n; ++i)
+    {
+        bool t = false;
+        for (int x : trigs) t = t || x == i;
+        if (r.process (t, rolls)) out.push_back (i);
+    }
+    return out;
+}
+
+void testRatchet()
+{
+    { ratchet::Ratchet r; check (runRatchet (r, 300, { 0, 100, 200 }, 1) == std::vector<int> ({ 0, 100, 200 }), "ratchet: 1 = the trigs only"); }
+    { ratchet::Ratchet r; check (runRatchet (r, 300, { 0, 100, 200 }, 2) == std::vector<int> ({ 0, 100, 150, 200, 250 }), "ratchet: 2 splits each known period (not the first)"); }
+    { ratchet::Ratchet r; check (runRatchet (r, 300, { 0, 100, 200 }, 4) == std::vector<int> ({ 0, 100, 125, 150, 175, 200, 225, 250, 275 }), "ratchet: 4 evenly spaced"); }
+    { ratchet::Ratchet r; runRatchet (r, 140, { 0, 100 }, 2); check (runRatchet (r, 100, { 50 }, 1) == std::vector<int> ({ 10, 50 }), "ratchet: let go keeps this step's repeats, the next step plays once"); }
+    { ratchet::Ratchet r; check (runRatchet (r, 300, { 0, 100, 200 }, 3) == std::vector<int> ({ 0, 100, 133, 166, 200, 233, 266 }), "ratchet: 3 on a 100 period (remainder after the last repeat)"); }
+    { ratchet::Ratchet r; check (runRatchet (r, 10, { 0, 2, 4 }, 4) == std::vector<int> ({ 0, 2, 4 }), "ratchet: a period shorter than n fires the trigs only"); }
+    { ratchet::Ratchet r; runRatchet (r, 140, { 0, 100 }, 2); r.reset(); check (runRatchet (r, 100, { 0 }, 2) == std::vector<int> ({ 0 }), "ratchet: after reset the first trig fires once"); }
+    {   // chain: Ratchet into Gate, each fire carries its period. n = 2 only for the steps at 100 and 200.
+        ratchet::Ratchet r;
+        gate::Gate g;
+        g.frac = 0.5f;
+        std::vector<bool> h;
+        for (int i = 0; i < 400; ++i)
+        {
+            const int n = (i >= 100 && i < 300) ? 2 : 1;
+            const bool fire = r.process (i % 100 == 0, n);
+            h.push_back (g.process (fire, 1e-3f, r.period));
+        }
+        bool ok = true;
+        for (int i = 100; i < 400; ++i)
+        {
+            const bool want = (i < 125) || (i >= 150 && i < 175) || (i >= 200 && i < 225) || (i >= 250 && i < 275) || (i >= 300 && i < 350);
+            ok = ok && h[i] == want;
+        }
+        check (ok, "ratchet+gate: each repeat is its own 25 ms note, the step after the roll keeps its full 50 ms");
+    }
+}
+
+void testDuck()
+{
+    const float dt = 1.f / 48000.f, rel = 0.15f;
+    check (duck::gain (0.f, 1.f) == 1.f, "duck: depth 0 never ducks");
+    check (duck::gain (1.f, 1.f) == 0.f, "duck: depth 100% at a full envelope is silence");
+    check (near (duck::gain (0.5f, 1.f), 0.5), "duck: half depth at a full envelope is half gain", duck::gain (0.5f, 1.f));
+    check (duck::gain (1.f, 0.f) == 1.f, "duck: no envelope, no ducking");
+    check (duck::gain (2.f, 2.f) == 0.f && duck::gain (-1.f, 1.f) == 1.f, "duck: depth and envelope clamp to 0..1");
+    {
+        duck::Ducker d;
+        check (d.process (0.f, false, 1.f, rel, dt) == 1.f, "duck: an unpatched sidechain (0 V) passes at unity");
+        int n = 0;
+        while (d.process (5.f, false, 1.f, rel, dt) > 0.05f && n < 1000) ++n;
+        check (n <= 48, "duck: follower, a 5 V step ducks to 5% within 1 ms", n);
+        for (int i = 0; i < 480; ++i) d.process (5.f, false, 1.f, rel, dt);
+        float g = 1.f;
+        for (int i = 0; i < (int) (rel * 48000); ++i) g = d.process (0.f, false, 1.f, rel, dt);
+        check (near (g, 1.0 - std::exp (-1.0), 2e-3), "duck: follower recovers to 1 - 1/e after one RELEASE", g);
+        d.reset();
+        check (d.process (0.f, false, 1.f, rel, dt) == 1.f, "duck: reset clears the envelope");
+    }
+    {
+        duck::Ducker t;
+        float g = 1.f;
+        for (int i = 0; i < 480; ++i) g = t.process (0.5f, true, 1.f, rel, dt);
+        check (g == 1.f, "duck: trigger mode, 0.5 V does not fire", g);
+        int n = 0;
+        while (t.process (5.f, true, 1.f, rel, dt) > 0.05f && n < 1000) ++n;
+        check (n <= 48, "duck: trigger mode, a rising edge ducks to 5% within 1 ms", n);
+    }
+    {
+        duck::Ducker h;
+        const float g = h.process (std::numeric_limits<float>::quiet_NaN(), false, 1.f, rel, dt);
+        check (std::isfinite (g) && g >= 0.f && g <= 1.f, "duck: a NaN sidechain reads as 0 V", g);
+    }
+}
+
 int main()
 {
     sliderChecks();
@@ -1281,6 +1400,9 @@ int main()
     testEnv();
     testMixer();
     testMeter();
+    testKeyLock();
+    testRatchet();
+    testDuck();
     // ---- calls (each task adds its calls above this line)
     std::printf ("\n%s: %d failure(s)\n", failures ? "FAILED" : "PASSED", failures);
     return failures ? 1 : 0;

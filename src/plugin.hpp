@@ -10,6 +10,7 @@ extern Model* modelRipple;
 extern Model* modelFilter;
 extern Model* modelSlider;
 extern Model* modelMixer;
+extern Model* modelDuck;
 extern Model* modelAcidBass;
 extern Model* modelAcidVoice;
 extern Model* modelLooper;

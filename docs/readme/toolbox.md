@@ -8,6 +8,8 @@ Jack rings: blue = clock, reset and triggers; lime = pitch; magenta = CV modulat
 
 A dual quantizer / arpeggiator. Sections A and B share one scale.
 
+Arpeggio is 16 HP since 2.3.0 (was 12): in an old patch, a module right next to it may now overlap it.
+
 **Scale.** The 12 keys toggle notes in or out of the scale. TYPE loads a preset into the keys (major, natural minor,
 harmonic minor, dorian, phrygian, lydian, mixolydian, major pentatonic, minor pentatonic, chromatic); TYPE CV adds
 1 V per preset. Your key edits stay until TYPE moves to another preset. RAND (button or trigger) rolls a random scale
@@ -24,8 +26,19 @@ that always keeps C. With every key off, CV is not quantized (TRIG still samples
 **Pitch.** INTERVAL moves B by -12..+12 *scale degrees*, so B harmonizes in key (CV: 1/12 V per degree).
 AXIS transposes both outputs by -12..+12 semitones (CV: 1 V/oct) (knob + CV, -12..+12 total). Outputs clamp to +-10 V.
 
-**Gates.** Context menu "TRIG outs send gates (half the clock period)": TRIG out goes high on each trigger for half
+**Gates.** Context menu "TRIG outs send gates (GATE sets the length)": TRIG out goes high on each trigger for GATE of
 the time since the last one (10 ms for the first, 1 ms..2 s), for voices that hold a note on a gate. Off by default.
+- **GATE** (knob + CV, 5-95 %): how long each TRIG-out gate stays high, as a share of the step (of the repeat spacing
+  while ROLL is held). Acts with "TRIG outs send gates" on.
+- **ROLL** (hold button or gate jack) + **ROLLS** (2/3/4): while held, each step's note plays 2-4 times, evenly spread
+  over the step. ROLL repeats both the gates and the 1 ms pulses, on A and B. It is read at each step: letting go takes
+  effect from the next step, so the step playing finishes its repeats. The first step after start, load or reset is
+  not rolled (no step length known yet). In quantizer mode, turn on "Triggers pass through": otherwise TRIG out fires
+  only on note changes, and ROLL splits the time between note changes instead of the clock step.
+
+**Lock.** Context menu "Lock scale (keys, TYPE and RANDOM)" pins the 12 keys as they are. While locked, key clicks bounce
+back, TYPE and RANDOM (knob, button and CV) do nothing, and Randomize and Initialize leave the scale alone. The lock
+survives Initialize and saves with the patch. Off by default.
 
 **B follows A.** Unpatched B CV and B TRIG read A's, so with nothing in B you get A plus INTERVAL.
 
@@ -123,6 +136,20 @@ that show what reaches the audio interface. 34 HP.
 
 Patch idea: Drums kick into strip 1 and into SC, an acid line into strip 2 with DUCK at 70 %, a pad into strip 3 with
 SEND 1 into a reverb, the reverb back into RTN1, OUT L/R to the audio interface.
+
+## My lil Duck
+
+A sidechain ducker for audio that does not go through a Mixer strip (the Mixer's strips already duck on their own).
+Whenever **SC** is loud, or fires a trigger, IN L / IN R are pulled down. 12 HP.
+
+- **SC**: by default it follows the audio level (full effect at 5 V, 1 ms attack). Right-click, **SC IN reads**:
+  **Triggers** instead takes a rising edge (1 V on, 0.1 V off) as a full duck, the way a kick gate does. The setting is
+  saved with the patch. Nothing patched means no ducking.
+- **DEPTH** 0-100 % (default 80 %): how far a full envelope pulls the audio down. 100 % goes to silence.
+- **RELEASE** 20 ms-1 s (default 150 ms), log: how fast the audio comes back. It is the same taper as the Mixer's REL.
+- **IN L / OUT L** and **IN R / OUT R**: each side is polyphonic and keeps its channel count, and every channel gets
+  the same gain. One envelope drives both sides, so a stereo pair stays together. Leave R empty for mono.
+- **GR** light: brighter the more the audio is pulled down.
 
 ## Build
 

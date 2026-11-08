@@ -60,7 +60,7 @@ def text(s, x, y, size, fill, anchor='middle', stroke=0.0):
 TITLE_X, TITLE_Y, TITLE_SIZE = 11.2, 6.3, 4.3
 MASCOT_X = W - 14.46   # 46.5 on 12 HP
 MASCOT_R = BAND * 0.36
-HP = {'Slider': 18, 'Ripple': 16, 'Mixer': 34}   # panel width per module, 12 HP unless named here
+HP = {'Slider': 18, 'Ripple': 16, 'Mixer': 34, 'Arpeggio': 16}   # panel width per module, 12 HP unless named here
 
 
 def use(name):
@@ -125,6 +125,9 @@ ARPEGGIO = [('KEY%d_PARAM' % pc, 'key', x, y, '') for pc, (x, y) in sorted(KEYS.
     ('B_CV_INPUT', 'play', JX[3], ROW_IN, 'CV'), ('B_TRIG_INPUT', 'seq', JX[4], ROW_IN, 'TRIG'),
     ('A_CV_OUTPUT', 'out', JX[0], ROW_OUT, 'CV'), ('A_TRIG_OUTPUT', 'out', JX[1], ROW_OUT, 'TRIG'),
     ('B_CV_OUTPUT', 'out', JX[3], ROW_OUT, 'CV'), ('B_TRIG_OUTPUT', 'out', JX[4], ROW_OUT, 'TRIG'),
+    ('GATE_PARAM', 'tiny', 70.0, ROW_TYPE, 'GATE'), ('ROLLN_PARAM', 'tiny', 70.0, ROW_MODE, 'ROLLS'),
+    ('ROLLBTN_PARAM', 'button', 70.0, ROW_AXIS, 'ROLL'),
+    ('GATE_INPUT', 'cv', 63.0, ROW_IN, 'GATE'), ('ROLL_INPUT', 'seq', 73.5, ROW_IN, 'ROLL'),
 ]
 
 
@@ -134,7 +137,7 @@ ARPEGGIO_ZONE_Y = 94.5
 
 def arpeggio_extras():
     return [
-        '<rect x="2.5" y="14.6" width="%g" height="18.4" rx="1.5" fill="none" stroke="%s" stroke-width="0.5"/>' % (W - 5, LIME),
+        '<rect x="2.5" y="14.6" width="%g" height="18.4" rx="1.5" fill="none" stroke="%s" stroke-width="0.5"/>' % (5.08 * 12 - 5, LIME),
         '<rect x="%g" y="%g" width="%g" height="29.2" rx="2" fill="%s"/>' % (ZONE_X, ARPEGGIO_ZONE_Y, W - 2 * ZONE_X, INK2),   # jack zone
         text('A', (JX[0] + JX[1]) / 2, 98.4, 2.8, LIME, stroke=0.2), text('B', (JX[3] + JX[4]) / 2, 98.4, 2.8, LIME, stroke=0.2),
     ]
@@ -201,6 +204,23 @@ def filter_extras():
         '<rect x="%g" y="%g" width="%g" height="29.2" rx="2" fill="%s"/>' % (ZONE_X, FILTER_ZONE_Y, W - 2 * ZONE_X, INK2),   # jack zone, as Arpeggio's
         '<path d="M 20 116.5 H 30.5 C 32.3 116.5 32.8 112.8 34 112.8 C 35.2 112.8 35.4 116.2 36.6 118.2 L 40 122" fill="none" '
         'stroke="%s" stroke-width="0.6" stroke-linecap="round" stroke-linejoin="round"/>' % LIME,   # a resonant low-pass, IN to OUT
+    ]
+
+
+# ---- Duck (12 HP): DEPTH on top, RELEASE under it; the jack zone has IN L, SC, IN R on top and OUT L, the GR light, OUT R
+# along the bottom. Same zone and columns as Filter.
+DUCK_ZONE_Y = FILTER_ZONE_Y
+DUCK = [
+    ('DEPTH_PARAM', 'hero', W / 2, 32.0, 'DEPTH'),
+    ('RELEASE_PARAM', 'knob', W / 2, 62.0, 'RELEASE'),
+    ('L_INPUT', 'play', FX[0], 102.0, 'IN L'), ('SC_INPUT', 'seq', FX[1], 102.0, 'SC'), ('R_INPUT', 'play', FX[2], 102.0, 'IN R'),
+    ('L_OUTPUT', 'out', FX[0], 115.3, 'OUT L'), ('DUCK_LIGHT', 'light', FX[1], 112.5, 'GR'), ('R_OUTPUT', 'out', FX[2], 115.3, 'OUT R'),
+]
+
+
+def duck_extras():
+    return [
+        '<rect x="%g" y="%g" width="%g" height="29.2" rx="2" fill="%s"/>' % (ZONE_X, DUCK_ZONE_Y, W - 2 * ZONE_X, INK2),   # jack zone, as Filter's
     ]
 
 
@@ -296,7 +316,8 @@ def mixer_extras():
 
 MODULES = {'Arpeggio': ('MY LIL ARPEGGIO', ARPEGGIO, arpeggio_extras, ARPEGGIO_ZONE_Y), 'Ripple': ('MY LIL RIPPLE', RIPPLE, ripple_extras, RIPPLE_ZONE_Y),
            'Filter': ('MY LIL FILTER', FILTER, filter_extras, FILTER_ZONE_Y), 'Slider': ('MY LIL SLIDER', SLIDER, slider_extras, SLIDER_ZONE_Y),
-           'Mixer': ('MY LIL MIXER', MIXER, mixer_extras, MIXER_ZONE_Y)}
+           'Mixer': ('MY LIL MIXER', MIXER, mixer_extras, MIXER_ZONE_Y),
+           'Duck': ('MY LIL DUCK', DUCK, duck_extras, DUCK_ZONE_Y)}
 EXTRA_CONSTS = {'Mixer': ['constexpr float STRIP_DX = %.2ff;   // strip column pitch: strip i sits at strip 0 + i * STRIP_DX' % STRIP_DX,
                           'constexpr int STRIPS = %d;   // strip count; Mixer.cpp static_asserts it equals mixer::numStrips' % len(MIX_X),
                           'constexpr float STRIP_FACE_R = %.3ff;   // a strip face\'s radius (TalkingFace); STRIP_FACEi is its centre' % RADIUS['face'],

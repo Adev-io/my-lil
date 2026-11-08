@@ -8,6 +8,7 @@ void init (Plugin* p)
     p->addModel (modelFilter);
     p->addModel (modelSlider);
     p->addModel (modelMixer);
+    p->addModel (modelDuck);
     p->addModel (modelAcidBass);
     p->addModel (modelAcidVoice);
     p->addModel (modelLooper);
