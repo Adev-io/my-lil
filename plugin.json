@@ -1,7 +1,7 @@
 {
   "slug": "MyLil",
   "name": "My lil",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "license": "MIT",
   "brand": "A_Development",
   "author": "Ari Klopfer",
@@ -24,6 +24,7 @@
     {"slug": "Looper", "name": "My lil Looper", "description": "Five-track stereo live looper: record, overdub with undo, reverse and one-shot per track, synced to the first loop or a clock", "tags": ["Recording", "Sampler", "Polyphonic"]},
     {"slug": "MelodyMonster", "name": "Melody Monster", "description": "8-track seeded generative melody sequencer", "tags": ["Sequencer", "Polyphonic", "Random"]},
     {"slug": "Drums", "name": "My lil Drums", "description": "FPC-style drum sequencer: 16 sample pads, 64-step piano roll, per-pad ADSR, filter and compressor, MIDI out", "tags": ["Sequencer", "Sampler", "Drum"]},
-    {"slug": "VJLink", "name": "My lil VJ Link", "description": "Sends your patch's audio analysis to My Lil VJ and turns its levels, LFOs, camera motion, hand tracking and show events into CV", "tags": ["Visual", "MIDI", "Utility"]}
+    {"slug": "VJLink", "name": "My lil VJ Link", "description": "Sends your patch's audio analysis to My Lil VJ and turns its levels, LFOs, camera motion, hand tracking and show events into CV", "tags": ["Visual", "MIDI", "Utility"]},
+    {"slug": "Synthscope", "name": "My lil Synthscope", "description": "EisenScript structure generator: rules grow a 3D structure on screen, audio and CV bend it, a clock walks it as X/Y/Z/hue/size CV, and Algo-Art Cockpit pieces skin it", "tags": ["Visual", "Sequencer", "Random"]}
   ]
 }

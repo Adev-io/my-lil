@@ -15,4 +15,5 @@ void init (Plugin* p)
     p->addModel (modelMelodyMonster);
     p->addModel (modelDrums);
     p->addModel (modelVjLink);
+    p->addModel (modelSynthscope);
 }

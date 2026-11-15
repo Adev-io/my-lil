@@ -6,3 +6,4 @@
 #include "layout/melody.hpp"
 #include "layout/drums.hpp"
 #include "layout/vjlink.hpp"
+#include "layout/synthscope.hpp"
